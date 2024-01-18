@@ -28,7 +28,7 @@ jobs:
       - name: Prepare binaries
         run: |
           cd launch
-          bash ./launch/build.sh
+          bash ./build.sh
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -61,7 +61,7 @@ jobs:
           echo PUSH_IMAGE=true >> $GITHUB_ENV
           echo "Docker image will be published with the tag: ${{ env.IMAGE_TAG }}!"
           cd launch
-          bash ./launch/build.sh
+          bash ./build.sh
 
       - name: Log in to Docker Hub
         if: ${{ github.ref == 'refs/heads/master' }}
