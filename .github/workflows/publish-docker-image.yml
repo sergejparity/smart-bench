@@ -25,10 +25,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Prepare binaries
+      - name: Cache Rust dependencies
+        uses: swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+
+      - name: Download binaries
         run: |
-          cd launch
-          bash ./build.sh
+          bash ./launch/download-bins.sh
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -60,8 +64,15 @@ jobs:
           echo IMAGE_TAG="master-${GITHUB_SHA::7}" >> $GITHUB_ENV
           echo PUSH_IMAGE=true >> $GITHUB_ENV
           echo "Docker image will be published with the tag: ${{ env.IMAGE_TAG }}!"
-          cd launch
-          bash ./build.sh
+
+      - name: Cache Rust dependencies
+        uses: swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+
+      - name: Download binaries
+        run: |
+          bash ./launch/download-bins.sh
 
       - name: Log in to Docker Hub
         if: ${{ github.ref == 'refs/heads/master' }}
