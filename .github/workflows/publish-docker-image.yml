@@ -27,6 +27,7 @@ jobs:
 
       - name: Prepare binaries
         run: |
+          cd launch
           bash ./launch/build.sh
 
       - name: Set up Docker Buildx
@@ -59,6 +60,7 @@ jobs:
           echo IMAGE_TAG="master-${GITHUB_SHA::7}" >> $GITHUB_ENV
           echo PUSH_IMAGE=true >> $GITHUB_ENV
           echo "Docker image will be published with the tag: ${{ env.IMAGE_TAG }}!"
+          cd launch
           bash ./launch/build.sh
 
       - name: Log in to Docker Hub
